@@ -19,6 +19,10 @@ public class WaveLife : MonoBehaviour {
         transform.localScale += transform.localScale * propagationSpeed * Time.deltaTime;
 	}
 
+
+    void OnTriggerStay2D(Collider2D other) {
+        Debug.Log(other.transform.position);
+    }
     //void WaitAndDestroy()
     //{
     //    yield WaitForSeconds(lifetime);

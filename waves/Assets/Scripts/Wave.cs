@@ -25,7 +25,7 @@ public class Wave : MonoBehaviour {
 
     void StartWave()
     {
-        Vector3 wavePos = new Vector3(transform.position.x, transform.position.y, 1);
+        Vector3 wavePos = new Vector3(transform.position.x, transform.position.y, 0);
         Instantiate(wavePrefab, wavePos, Quaternion.identity);
         //Debug.Log(Input.mousePosition);
     }
