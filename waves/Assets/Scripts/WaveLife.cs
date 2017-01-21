@@ -21,7 +21,7 @@ public class WaveLife : MonoBehaviour {
 
 
     void OnTriggerStay2D(Collider2D other) {
-        Debug.Log(other.transform.position);
+        //Debug.Log(other.transform.position);
     }
     //void WaitAndDestroy()
     //{
