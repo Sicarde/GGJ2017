@@ -7,6 +7,7 @@ public class Wave : MonoBehaviour {
     public GameObject wavePrefab;
     public float cooldownDuration = 1.0f;//seconds
     public Material wallMaterial;
+    public Material movableObjectMaterial;
 
     private float lastWave = -1f;
 
@@ -29,6 +30,7 @@ public class Wave : MonoBehaviour {
         Vector3 wavePos = new Vector3(transform.position.x, transform.position.y, 0);
         GameObject obj = Instantiate(wavePrefab, wavePos, Quaternion.identity);
         obj.GetComponent<WaveLife>().wallMaterial = wallMaterial;
+        obj.GetComponent<WaveLife>().movableObjectMaterial = movableObjectMaterial;
         //Debug.Log(Input.mousePosition);
     }
 }

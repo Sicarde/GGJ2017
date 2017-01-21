@@ -8,6 +8,7 @@ public class WaveLife : MonoBehaviour {
     public float propagationSpeed = 1.0f;
     public float lifetime = 2.0f;
     public Material wallMaterial;
+    public Material movableObjectMaterial;
 
     // Use this for initialization
     void Start () {
@@ -20,10 +21,13 @@ public class WaveLife : MonoBehaviour {
         transform.localScale += transform.localScale * propagationSpeed * Time.deltaTime;
         wallMaterial.SetFloat("_WaveSize", transform.localScale.x);
         wallMaterial.SetVector("_WaveOrigin", new Vector4(transform.position.x, transform.position.y, transform.position.z, 0.0f));
-	}
+        movableObjectMaterial.SetFloat("_WaveSize", transform.localScale.x);
+        movableObjectMaterial.SetVector("_WaveOrigin", new Vector4(transform.position.x, transform.position.y, transform.position.z, 0.0f));
+    }
 
     void OnDestroy() {
         wallMaterial.SetFloat("_WaveSize", 0);
+        movableObjectMaterial.SetFloat("_WaveSize", 0);
         Debug.Log(0);
     }
 
