@@ -12,7 +12,7 @@ public class Wave : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if (Time.time >= lastWave + cooldownDuration && Input.GetButtonDown("Wave"))
+        if (Time.time >= lastWave + cooldownDuration && Input.GetButtonDown("Wave") && !Menu.isGamePaused)
         {
             lastWave = Time.time;
             StartWave();

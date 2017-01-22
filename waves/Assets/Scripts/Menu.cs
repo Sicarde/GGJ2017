@@ -40,6 +40,13 @@ public class Menu : MonoBehaviour {
         SceneManager.LoadScene(0);
     }
 
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            if (isGamePaused) Resume();
+            else Pause();
+        }
+    }
+
     public void Resume() {
         menuGO.SetActive(false);
         creditsGO.SetActive(false);
