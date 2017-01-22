@@ -8,10 +8,11 @@ public class MoveMe : MonoBehaviour {
     private bool attached = false;
     private Vector3 offset;
     private GameObject owner;
+    private AudioSource audioSource;
 
 	// Use this for initialization
 	void Start () {
-		
+        audioSource = gameObject.GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -31,6 +32,8 @@ public class MoveMe : MonoBehaviour {
                 attached = !attached;
                 owner = collider.gameObject;
                 offset = transform.position - owner.transform.position;
+                if (attached)
+                    audioSource.Play();
             }
         }
     }
