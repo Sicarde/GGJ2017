@@ -28,7 +28,7 @@ public class WaveLife : MonoBehaviour {
 
     void OnDestroy() {
         wallMaterial.SetFloat("_WaveSize", 0);
-        Debug.Log(0);
+        //Debug.Log(0);
     }
 
     //void WaitAndDestroy()

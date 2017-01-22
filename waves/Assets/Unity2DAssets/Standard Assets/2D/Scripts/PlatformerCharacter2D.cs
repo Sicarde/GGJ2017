@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections;
 
 namespace UnityStandardAssets._2D
 {
@@ -10,6 +11,7 @@ namespace UnityStandardAssets._2D
         [Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;  // Amount of maxSpeed applied to crouching movement. 1 = 100%
         [SerializeField] private bool m_AirControl = false;                 // Whether or not a player can steer while jumping;
         [SerializeField] private LayerMask m_WhatIsGround;                  // A mask determining what is ground to the character
+        [SerializeField] private float hoverFactor = 2.0f;
 
         private Transform m_GroundCheck;    // A position marking where to check if the player is grounded.
         const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
@@ -20,6 +22,10 @@ namespace UnityStandardAssets._2D
         private Rigidbody2D m_Rigidbody2D;
         private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 
+        private float initialGravity;
+        private float hoverGravity = -1;
+        private bool doubleJump = false;
+
         private void Awake()
         {
             // Setting up references.
@@ -27,6 +33,8 @@ namespace UnityStandardAssets._2D
             m_CeilingCheck = transform.Find("CeilingCheck");
             m_Anim = GetComponent<Animator>();
             m_Rigidbody2D = GetComponent<Rigidbody2D>();
+            initialGravity = m_Rigidbody2D.gravityScale;
+            //hoverGravity = initialGravity / 2;
         }
 
 
@@ -40,9 +48,23 @@ namespace UnityStandardAssets._2D
             for (int i = 0; i < colliders.Length; i++)
             {
                 if (colliders[i].gameObject != gameObject)
+                {
+                    Debug.Log(colliders[i].gameObject.name);
                     m_Grounded = true;
+                }
             }
             m_Anim.SetBool("Ground", m_Grounded);
+            if (m_Grounded)
+            {
+                Debug.Log("Grounded !");
+                doubleJump = false;
+            }
+            else if (m_Rigidbody2D.velocity.y < 0 && Input.GetButton("Jump") && !doubleJump)
+            {
+                m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, m_Rigidbody2D.velocity.y / hoverFactor);
+                //m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce / 2.0f));
+                //doubleJump = true;
+            }
 
             // Set the vertical animation
             //m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
@@ -96,9 +118,29 @@ namespace UnityStandardAssets._2D
                 m_Grounded = false;
                 m_Anim.SetBool("Ground", false);
                 m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+                //Debug.Log("Begin jump");
+                //StartCoroutine("Hover");
             }
         }
 
+        //IEnumerator Hover()
+        //{
+        //    yield return new WaitForSeconds(0.2f);
+        //    //Debug.Log("Hover");
+        //    ////for (float f = 1f; f >= 0; f -= 0.1f)
+        //    ////{
+        //    if (Input.GetButton("Jump"))
+        //    {
+        //        //Debug.Log("Begin hover");
+        //        //hoverGravity = m_Rigidbody2D.gravityScale / 2;
+        //        //m_Rigidbody2D.gravityScale = hoverGravity;
+        //        m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce / 2.0f));
+        //    }
+        //    //    //m_Rigidbody2D.velocity /= 2.0f;
+        //    //        //m_Rigidbody2D.AddForce(new Vector2(0f, 400f / 2.0f));
+        //    yield return null;
+        //    ////}           
+        //}
 
         private void Flip()
         {
