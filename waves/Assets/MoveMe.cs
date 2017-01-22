@@ -8,20 +8,24 @@ public class MoveMe : MonoBehaviour {
     private bool attached = false;
     private Vector3 offset;
     private GameObject owner;
+    private SpriteRenderer spriteRenderer;
 
 	// Use this for initialization
 	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.enabled = false;
+    }
+
+    // Update is called once per frame
+    void Update () {
         if (attached)//a coroutine would be better
             transform.position = owner.transform.position + offset;
     }
 
     void OnTriggerStay2D(Collider2D collider)
     {
+        Debug.Log("trigger");
+        Debug.Log(collider.gameObject.layer == LayerMask.NameToLayer("wave"));
         if (collider.gameObject.CompareTag("Player"))
         {
             //attachable = true;
@@ -32,6 +36,8 @@ public class MoveMe : MonoBehaviour {
                 owner = collider.gameObject;
                 offset = transform.position - owner.transform.position;
             }
+        } else if (collider.gameObject.layer == LayerMask.NameToLayer("wave")) {
+            spriteRenderer.enabled = true;
         }
     }
 
