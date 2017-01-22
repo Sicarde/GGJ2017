@@ -10,6 +10,7 @@ public class MoveMe : MonoBehaviour {
     private GameObject owner;
     private SpriteRenderer spriteRenderer;
     private AudioSource audioSource;
+    public bool isFlyable = false;
 
     // Use this for initialization
     void Start () {
@@ -24,24 +25,29 @@ public class MoveMe : MonoBehaviour {
             transform.position = owner.transform.position + offset;
     }
 
+    void OnTriggerEnter2D(Collider2D collider) {
+        if (collider.gameObject.layer == LayerMask.NameToLayer("wave"))
+        {
+            spriteRenderer.enabled = true;
+        }
+    }
+
     void OnTriggerStay2D(Collider2D collider)
     {
-        Debug.Log("trigger");
-        Debug.Log(collider.gameObject.layer == LayerMask.NameToLayer("wave"));
         if (collider.gameObject.CompareTag("Player"))
         {
             //attachable = true;
-            if (Input.GetButtonDown("Object"))
+            if (Input.GetButtonDown("Object") && isFlyable)
             {
                 Debug.Log(collider.gameObject.name);
                 attached = !attached;
-                owner = collider.gameObject;
-                offset = transform.position - owner.transform.position;
                 if (attached)
+                {
                     audioSource.Play();
+                    owner = collider.gameObject;
+                    offset = transform.position - owner.transform.position;
+                }
             }
-        } else if (collider.gameObject.layer == LayerMask.NameToLayer("wave")) {
-            spriteRenderer.enabled = true;
         }
     }
 
