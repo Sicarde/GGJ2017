@@ -41,7 +41,7 @@ public class Menu : MonoBehaviour {
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.Escape)) {
+        if (Input.GetButtonDown("Cancel")) {
             if (isGamePaused) Resume();
             else Pause();
         }
