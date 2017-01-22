@@ -1,4 +1,6 @@
-﻿Shader "Unlit/waveShader" {
+﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
+Shader "Unlit/waveShader" {
 	Properties {
 		_MainTex("Texture", 2D) = "red" {}
 	} SubShader {
@@ -32,7 +34,7 @@
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-				o.wvert = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.wvert = mul(unity_ObjectToWorld, v.vertex);
 				return o;
 			}
 			
